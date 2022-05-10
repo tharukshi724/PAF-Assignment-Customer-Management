@@ -1,6 +1,7 @@
 package EGSS.CustomerManagementService.contoller;
 
 import java.security.SecureRandom;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,30 +17,73 @@ import EGSS.CustomerManagementService.utils.CustomerDBConnection;
 
 public class CustomerController {
 	
+	  public static String viewListOfCustomers() throws SQLException{
+			
+	      List <CustomerModal> customers = new ArrayList<> ();
+	      String query =CustomerConstants.VIEWCUSTOMER;
+	       Connection connection = null;
+	      try {
+		      connection = CustomerDBConnection.getConnection();
+	       } catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		      e.printStackTrace();
+	       }
+	      PreparedStatement preparedStatement = connection.prepareStatement(query);
+	      System.out.println(connection.prepareStatement(query));
+	      ResultSet rs = preparedStatement.executeQuery();
+	      
+	      String output = "<h1>Customer Details</h1>";
+	      output += "<table border='1'>";
+          output += "<tr>\r\n"
+        		+ "    <th>ID</th>\r\n"
+        		+ "    <th>First Name</th>\r\n"
+        		+ "    <th>Last Name</th>\r\n"
+        		+ "    <th>NIC</th>\r\n"
+        		+ "    <th>Email</th>\r\n"
+        		+ "    <th>Street</th>\r\n"
+        		+ "    <th>State</th>\r\n"
+        		+ "    <th>Postal Code</th>\r\n"
+        		+ "    <th>role</th>\r\n"
+        		+ "  </tr>";
 	  
+	      while(rs.next()) {
+		      output += "<tr>";
+		      output += "<td>"+ rs.getString(1)+"</td>";
+		      output += "<td>"+ rs.getString(2)+"</td>";
+		      output += "<td>"+ rs.getString(3)+"</td>";
+		      output += "<td>"+ rs.getString(4)+"</td>";
+		      output += "<td>"+ rs.getString(5)+"</td>";
+		      output += "<td>"+ rs.getString(6)+"</td>";
+		      output += "<td>"+ rs.getString(7)+"</td>";
+		      output += "<td>"+ rs.getString(8)+"</td>";
+		      output += "<td>"+ rs.getString(9)+"</td>";
+		      output += "</tr>";
+
+	  }
+	  
+	  output += "</table>";
+	  return output;
+	}
+  
+  
 	
 	     //add customer details to system
 	
-		public static String addCustomer(CustomerModal customer) throws SQLException, ClassNotFoundException {
+		public static String addCustomer(int id , String firstName,String lastName,String nic, String email, String Street,String state,String postalCode, String role) throws SQLException, ClassNotFoundException {
 			  String result = "";
 			  String query =CustomerConstants.ADDTOCUSTOMER;
 			  Connection connection = CustomerDBConnection.getConnection();
 			  PreparedStatement preparedStatement = connection.prepareStatement(query);
 			  
-				  preparedStatement.setInt(CustomerConstants.INDEX_ONE, customer.getId());
-				  preparedStatement.setString(CustomerConstants.INDEX_TWO, customer.getFirstName());
-				  preparedStatement.setString(CustomerConstants.INDEX_TREE, customer.getLastName());
-				  preparedStatement.setString(CustomerConstants.INDEX_FOUR,customer.getNic());
-				  preparedStatement.setString(CustomerConstants.INDEX_FIVE,customer.getEmail());
-				  preparedStatement.setString(CustomerConstants.INDEX_SIX,customer.getStreet());
-				  preparedStatement.setString(CustomerConstants.INDEX_SEVEN,customer.getState());
-				  preparedStatement.setString(CustomerConstants.INDEX_EIGHT,customer.getPostalCode());
-				  preparedStatement.setBoolean(CustomerConstants.INDEX_NINE,customer.isStatus());
-				  preparedStatement.setInt(CustomerConstants.INDEX_TEN,customer.getCreateBy());
-				  preparedStatement.setString(CustomerConstants.INDEX_ELEVEN,customer.getCreateDate());
-				  preparedStatement.setInt(CustomerConstants.INDEX_TWELEVE,customer.getModifiedBy());
-				  preparedStatement.setString(CustomerConstants.INDEX_THIRTEEN,customer.getModifiedDate());
-				  preparedStatement.setString(CustomerConstants.INDEX_FOURTEEN,customer.getRole());
+				  preparedStatement.setInt(CustomerConstants.INDEX_ONE, id);
+				  preparedStatement.setString(CustomerConstants.INDEX_TWO, firstName);
+				  preparedStatement.setString(CustomerConstants.INDEX_TREE, lastName);
+				  preparedStatement.setString(CustomerConstants.INDEX_FOUR,nic);
+				  preparedStatement.setString(CustomerConstants.INDEX_FIVE,email);
+				  preparedStatement.setString(CustomerConstants.INDEX_SIX,Street);
+				  preparedStatement.setString(CustomerConstants.INDEX_SEVEN,state);
+				  preparedStatement.setString(CustomerConstants.INDEX_EIGHT,postalCode);
+				  preparedStatement.setString(CustomerConstants.INDEX_NINE,role);
 			
 			 
 				
@@ -77,7 +121,7 @@ public class CustomerController {
 	      
 	      // Generate Password 
 	      
-	       public static String insertAuthData(CustomerModal customer) throws ClassNotFoundException, SQLException {
+	       public static String insertAuthData(int Uid,int id) throws ClassNotFoundException, SQLException {
 		         
 	    	     String result = "";
 		         String query =CustomerConstants.INSERTAUTHDATA;
@@ -87,9 +131,9 @@ public class CustomerController {
 		         //generate random password
 		         String password = generateRandomPassword(8);
 	
-			     preparedStatement.setInt(CustomerConstants.INDEX_ONE, customer.getUid());
+			     preparedStatement.setInt(CustomerConstants.INDEX_ONE,Uid);
 			     preparedStatement.setString(CustomerConstants.INDEX_TWO, password);
-			     preparedStatement.setInt(CustomerConstants.INDEX_TREE, customer.getId());
+			     preparedStatement.setInt(CustomerConstants.INDEX_TREE,id);
 			     boolean successfullyAdded = preparedStatement.execute();
 			      if(!successfullyAdded) {
 				
@@ -104,55 +148,7 @@ public class CustomerController {
 		
 	      // View all customers
 		
-		  public static String viewListOfCustomers() throws SQLException{
-			
-			      List <CustomerModal> customers = new ArrayList<> ();
-			      String query =CustomerConstants.VIEWCUSTOMER;
-			       Connection connection = null;
-			      try {
-				      connection = CustomerDBConnection.getConnection();
-			       } catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				      e.printStackTrace();
-			       }
-			      PreparedStatement preparedStatement = connection.prepareStatement(query);
-			      System.out.println(connection.prepareStatement(query));
-			      ResultSet rs = preparedStatement.executeQuery();
-			      
-			      String output = "<h1>Customer Details</h1>";
-			      output += "<table border='1'>";
-		          output += "<tr>\r\n"
-		        		+ "    <th>ID</th>\r\n"
-		        		+ "    <th>First Name</th>\r\n"
-		        		+ "    <th>Last Name</th>\r\n"
-		        		+ "    <th>NIC</th>\r\n"
-		        		+ "    <th>Email</th>\r\n"
-		        		+ "    <th>Street</th>\r\n"
-		        		+ "    <th>State</th>\r\n"
-		        		+ "    <th>Postal Code</th>\r\n"
-		        		+ "    <th>role</th>\r\n"
-		        		+ "  </tr>";
-			  
-			      while(rs.next()) {
-				      output += "<tr>";
-				      output += "<td>"+ rs.getString(1)+"</td>";
-				      output += "<td>"+ rs.getString(2)+"</td>";
-				      output += "<td>"+ rs.getString(3)+"</td>";
-				      output += "<td>"+ rs.getString(4)+"</td>";
-				      output += "<td>"+ rs.getString(5)+"</td>";
-				      output += "<td>"+ rs.getString(6)+"</td>";
-				      output += "<td>"+ rs.getString(7)+"</td>";
-				      output += "<td>"+ rs.getString(8)+"</td>";
-				      output += "<td>"+ rs.getString(9)+"</td>";
-				      output += "</tr>";
 		
-			  }
-			  
-			  output += "</table>";
-			  return output;
-			}
-		  
-		  
 		
 		    // Get One Customer Details
 		  public static CustomerModal selectCustomer( int id) throws SQLException {
@@ -191,7 +187,7 @@ public class CustomerController {
 		   
 		   // Update Customer 
 		  
-		   public static  String updateCustomer(CustomerModal customer) throws SQLException {
+		   public static  String updateCustomer(int id,String firstName,String lastName,String nic, String email, String Street,String state,String postalCode, String role) throws SQLException {
 			     String result ="";
 		         boolean rowUpdated = false;
 		         String query =CustomerConstants.UPDATECUSTOMER;
@@ -204,16 +200,16 @@ public class CustomerController {
 				} 
 				  PreparedStatement preparedStatement = connection.prepareStatement(query);
 		        	
-				  preparedStatement.setString(1, customer.getFirstName());
-				  preparedStatement.setString(2,customer.getLastName());
-				  preparedStatement.setString(3, customer.getNic());
-				  preparedStatement.setString(4,customer.getEmail());
-				  preparedStatement.setString(5,customer.getStreet());
-				  preparedStatement.setString(6,customer.getState());
-				  preparedStatement.setString(7,customer.getPostalCode());
-				  preparedStatement.setString(8, customer.getRole());
+				  preparedStatement.setString(1,firstName);
+				  preparedStatement.setString(2,lastName);
+				  preparedStatement.setString(3, nic);
+				  preparedStatement.setString(4,email);
+				  preparedStatement.setString(5,Street);
+				  preparedStatement.setString(6,state);
+				  preparedStatement.setString(7,postalCode);
+				  preparedStatement.setString(8, role);
 		            
-				  preparedStatement.setInt(9, customer.getId());
+				  preparedStatement.setInt(9, id);
 
 		             rowUpdated = preparedStatement.executeUpdate() > 0;//return number of rows updated
 		             
