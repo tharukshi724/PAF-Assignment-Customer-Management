@@ -15,7 +15,7 @@
 		<div class="row">
 			<div style="background-color:#DCDCDC;height:920px;border-radius:10px;" class="col-6">
 				<h1>Login</h1>
-				<form id="formLogin" name="formLogin" action="<%=request.getContextPath()%>/LoginAPI">
+				<form id="formLogin" name="formLogin"  method="post" action="<%=request.getContextPath()%>/LoginAPI">
 					Email: 
 					<input id="email" name="email" type="text"class="form-control form-control-sm" placeholder="Enter email"> <br>
 					Password:
@@ -29,9 +29,7 @@
 				<div id="alertSuccess" class="alert alert-success"></div>
 				<div id="alertError" class="alert alert-danger"></div>
 				<br>
-				<div style="position:relative;right:20px;" id="divUserGrid">
-					
-				</div>
+			
 				
 				
 			</div>
