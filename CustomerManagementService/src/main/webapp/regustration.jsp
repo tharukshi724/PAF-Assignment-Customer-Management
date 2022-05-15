@@ -15,7 +15,7 @@
 		<div class="row">
 			<div style="background-color:#DCDCDC;height:920px;border-radius:10px;" class="col-6">
 				<h1>User Details</h1>
-				<form id="formUser" name="formUser"  action="<%=request.getContextPath()%>/UserAPI">
+				<form id="formUser" name="formUser" method="post" action="<%=request.getContextPath()%>/UserAPI">
 					First Name: 
 					<input id="firstName" name="firstName" type="text"class="form-control form-control-sm" placeholder="Enter First Name"> <br>
 					Last Name:
@@ -46,10 +46,7 @@
 					System.out.println(customerObj.viewListOfCustomers());
 					%>
 				</div>
-				<br>
-				<a href="adminPayment.jsp"><input type="button" value="Back" class="btn btn-primary"></a><br><br>
-				<a href="home.jsp"><input type="button" value="Home page" class="btn btn-primary"></a>
-				<br>
+				
 				
 			</div>
 		</div>

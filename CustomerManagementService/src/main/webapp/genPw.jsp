@@ -15,7 +15,7 @@
 		<div class="row">
 			<div style="background-color:#DCDCDC;height:920px;border-radius:10px;" class="col-6">
 				<h1>Enter ID</h1>
-				<form id="formGenPW" name="formGenPW" action="<%=request.getContextPath()%>/GeneratePwAPI">
+				<form id="formGenPW" name="formGenPW"  action= "post" action="<%=request.getContextPath()%>/GeneratePwAPI">
 					ID: 
 					<input id="id" name="id" type="text"class="form-control form-control-sm" placeholder="Enter email"> <br>
 					
@@ -28,9 +28,6 @@
 				<div id="alertSuccess" class="alert alert-success"></div>
 				<div id="alertError" class="alert alert-danger"></div>
 				<br>
-				<div style="position:relative;right:20px;" id="divUserGrid">
-					
-				</div>
 				
 				
 			</div>

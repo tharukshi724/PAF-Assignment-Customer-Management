@@ -18,7 +18,7 @@ $(document).on("click", "#btnSave", function(event) {
 
 
 	// If valid------------------------
-	var type = ($("#hidIDSave").val() == "") ? "POST" : "PUT";
+	var type = ($("#hididSave").val() == "") ? "POST" : "PUT";
 	$.ajax({
 		url : "GeneratePwAPI",
 		type : type,
@@ -37,7 +37,7 @@ function onPwComplete(response, status) {
 		if (resultSet.status.trim() == "success") {
 			$("#alertSuccess").text("Successfully saved.");
 			$("#alertSuccess").show();
-			$("#divUserGrid").html(resultSet.data);
+			
 		} else if (resultSet.status.trim() == "error") {
 			$("#alertError").text(resultSet.data);
 			$("#alertError").show();
@@ -49,7 +49,7 @@ function onPwComplete(response, status) {
 		$("#alertError").text("Unknown error while saving..");
 		$("#alertError").show();
 	}
-	$("#hidIDSave").val("");
+	$("#hididSave").val("");
 	$("#formPw")[0].reset();
 }
 

@@ -29,7 +29,7 @@ $(document).on("click", "#btnSave", function(event) {
 	$.ajax({
 		url : "UserAPI",
 		type : type,
-		data : $("#formItem").serialize(),
+		data : $("#formUser").serialize(),
 		dataType : "text",
 		complete : function(response, status) {
 			onUserSaveComplete(response.responseText, status);
@@ -56,13 +56,13 @@ function onUserSaveComplete(response, status) {
 		$("#alertError").text("Unknown error while saving..");
 		$("#alertError").show();
 	}
-	$("#hidIDSave").val("");
+	$("#hididSave").val("");
 	$("#formUser")[0].reset();
 }
 
 // UPDATE==========================================
 $(document).on("click", ".btnUpdate", function(event) {
-			$("#hidIDSave").val( $(this).closest("tr").find('#hidIDUpdate').val());
+			$("#hididSave").val( $(this).data("id"));
 			$("#firstName").val($(this).closest("tr").find('td:eq(0)').text());
 			$("#lastName").val($(this).closest("tr").find('td:eq(2)').text());
 			$("#nic").val($(this).closest("tr").find('td:eq(3)').text());
@@ -80,7 +80,7 @@ $(document).on("click", ".btnRemove", function(event) {
 	$.ajax({
 		url : "UserAPI",
 		type : "DELETE",
-		data : "id=" + $(this).data("itemid"),
+		data : "id=" + $(this).data("id"),
 		dataType : "text",
 		complete : function(response, status) {
 			onUserDeleteComplete(response.responseText, status);
